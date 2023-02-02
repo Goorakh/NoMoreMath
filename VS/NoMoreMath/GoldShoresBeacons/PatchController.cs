@@ -27,8 +27,11 @@ namespace NoMoreMath.GoldShoresBeacons
                 int totalCost = 0;
                 foreach (GameObject beaconObject in missionController.beaconInstanceList)
                 {
+                    if (!beaconObject)
+                        continue;
+
                     PurchaseInteraction purchaseInteraction = beaconObject.GetComponent<PurchaseInteraction>();
-                    if (purchaseInteraction.available)
+                    if (purchaseInteraction && purchaseInteraction.available)
                     {
                         totalCost += purchaseInteraction.Networkcost;
                     }
