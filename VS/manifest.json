@@ -4,7 +4,7 @@
 	"displayName": "No More Math",
 	"version_number": "1.0.0",
 	"website_url": "https://github.com/Goorakh/NoMoreMath",
-	"description": "TODO",
+	"description": "Reduces the need for tedious head math, or maybe you're just bad at it. Clientside.",
 	"dependencies": [
 		"bbepis-BepInExPack-5.4.2100",
 		"RiskofThunder-HookGenPatcher-1.2.1",
