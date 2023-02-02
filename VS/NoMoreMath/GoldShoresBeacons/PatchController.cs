@@ -15,6 +15,13 @@ namespace NoMoreMath.GoldShoresBeacons
             On.RoR2.UI.ObjectivePanelController.ActivateGoldshoreBeaconTracker.IsDirty += ActivateGoldshoreBeaconTracker_IsDirty;
         }
 
+        public static void Cleanup()
+        {
+            On.RoR2.UI.ObjectivePanelController.ActivateGoldshoreBeaconTracker.GenerateString -= ActivateGoldshoreBeaconTracker_GenerateString;
+
+            On.RoR2.UI.ObjectivePanelController.ActivateGoldshoreBeaconTracker.IsDirty -= ActivateGoldshoreBeaconTracker_IsDirty;
+        }
+
         static string ActivateGoldshoreBeaconTracker_GenerateString(On.RoR2.UI.ObjectivePanelController.ActivateGoldshoreBeaconTracker.orig_GenerateString orig, ObjectivePanelController.ObjectiveTracker self)
         {
             StringBuilder stringBuilder = HG.StringBuilderPool.RentStringBuilder();

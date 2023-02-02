@@ -24,5 +24,10 @@ namespace NoMoreMath
             stopwatch.Stop();
             Log.Info_NoCallerPrefix($"Initialized in {stopwatch.Elapsed.TotalSeconds:F2} seconds");
         }
+
+        void OnDestroy()
+        {
+            GoldShoresBeacons.PatchController.Cleanup();
+        }
     }
 }
