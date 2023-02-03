@@ -1,9 +1,7 @@
 ﻿using RoR2;
-using System;
-using System.Collections.Generic;
+using RoR2.Items;
 using System.Linq;
 using System.Text;
-using UnityEngine;
 
 namespace NoMoreMath
 {
@@ -39,7 +37,9 @@ namespace NoMoreMath
                 {
                     if (_cardEquipmentIndex != EquipmentIndex.None && inventory.GetEquipmentIndex() == _cardEquipmentIndex)
                     {
-                        return cost - (int)(cost * 0.1f);
+#pragma warning disable Publicizer001 // Accessing a member that was not originally public
+                        return cost - (int)(cost * MultiShopCardUtils.refundPercentage);
+#pragma warning restore Publicizer001 // Accessing a member that was not originally public
                     }
                 }
             }
