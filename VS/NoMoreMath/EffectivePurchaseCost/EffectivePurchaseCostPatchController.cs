@@ -22,7 +22,7 @@ namespace NoMoreMath.EffectivePurchaseCost
         {
             orig(self, cost, stringBuilder, forWorldDisplay, includeColor);
 
-            if (!DisableBuildCostStringPatch)
+            if (self == CostTypeCatalog.GetCostTypeDef(CostTypeIndex.Money) && !DisableBuildCostStringPatch)
             {
                 int effectiveCost = CostUtils.GetEffectiveCost(cost);
                 if (effectiveCost != cost)
