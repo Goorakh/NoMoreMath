@@ -23,6 +23,7 @@ namespace NoMoreMath
             ChanceShrine.PatchController.Apply();
             EffectiveHealth.PatchController.Apply();
             EffectivePurchaseCost.EffectivePurchaseCostPatchController.Apply();
+            BloodShrine.BloodShrineAmountGainedPatchController.Apply();
 
             stopwatch.Stop();
             Log.Info_NoCallerPrefix($"Initialized in {stopwatch.Elapsed.TotalSeconds:F2} seconds");
@@ -34,6 +35,7 @@ namespace NoMoreMath
             ChanceShrine.PatchController.Cleanup();
             EffectiveHealth.PatchController.Cleanup();
             EffectivePurchaseCost.EffectivePurchaseCostPatchController.Cleanup();
+            BloodShrine.BloodShrineAmountGainedPatchController.Cleanup();
         }
     }
 }

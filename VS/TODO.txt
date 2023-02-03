@@ -1,8 +1,4 @@
-Effective cost of interactables if you have card
-
 Holdout Zone time remaining
-
-Shrine of Blood: Display money gained
 
 Effective Health:
 Armor
