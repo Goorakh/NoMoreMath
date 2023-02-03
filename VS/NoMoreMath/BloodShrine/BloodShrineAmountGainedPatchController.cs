@@ -24,11 +24,13 @@ namespace NoMoreMath.BloodShrine
 
                         StringBuilder stringBuilder = HG.StringBuilderPool.RentStringBuilder();
 
-                        stringBuilder.Append(" +");
+                        stringBuilder.Append(" (+");
 
                         EffectivePurchaseCostPatchController.DisableBuildCostStringPatch = true;
                         costTypeDef.BuildCostStringStyled(amountGained, stringBuilder, false, true);
                         EffectivePurchaseCostPatchController.DisableBuildCostStringPatch = false;
+
+                        stringBuilder.Append(')');
 
                         string result = stringBuilder.ToString();
 
