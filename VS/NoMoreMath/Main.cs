@@ -20,6 +20,7 @@ namespace NoMoreMath
             Log.Init(Logger);
 
             GoldShoresBeacons.PatchController.Apply();
+            ChanceShrine.PatchController.Apply();
 
             stopwatch.Stop();
             Log.Info_NoCallerPrefix($"Initialized in {stopwatch.Elapsed.TotalSeconds:F2} seconds");
@@ -28,6 +29,7 @@ namespace NoMoreMath
         void OnDestroy()
         {
             GoldShoresBeacons.PatchController.Cleanup();
+            ChanceShrine.PatchController.Cleanup();
         }
     }
 }

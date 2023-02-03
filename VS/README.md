@@ -7,3 +7,8 @@ Displays the total cost needed to buy all remaining beacons and changes color de
 
 ![goldbeacon_cantafford](https://cdn.discordapp.com/attachments/526159007442927648/1070842057008095314/image.png)
 ![goldbeacon_canafford](https://cdn.discordapp.com/attachments/526159007442927648/1070842131087888465/image.png)
+
+## Chance Shrine
+Displays how many activations of the shrine you can afford (assuming you don't get all the items from it)
+
+![chanceshrine](https://cdn.discordapp.com/attachments/526159007442927648/1070859320570425416/image.png)
