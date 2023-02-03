@@ -7,6 +7,11 @@ Displays the total amount of money you will lose in a transaction. For example, 
 
 ![effectivecost](https://cdn.discordapp.com/attachments/526159007442927648/1071090912245071902/image.png)
 
+## Holdout Zone Charge Time
+Displays the estimated time in seconds it will take to fully charge a holdout zone.
+
+![holdoutchargetime](https://cdn.discordapp.com/attachments/526159007442927648/1071105777646981270/image.png)
+
 ## Halcyon Beacons
 Displays the total cost needed to buy all remaining beacons and changes color depending on if you can afford it or not.
 

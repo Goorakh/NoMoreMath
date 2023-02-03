@@ -24,6 +24,7 @@ namespace NoMoreMath
             EffectiveHealth.PatchController.Apply();
             EffectivePurchaseCost.EffectivePurchaseCostPatchController.Apply();
             BloodShrine.BloodShrineAmountGainedPatchController.Apply();
+            HoldoutZoneTimeRemaining.HoldoutZoneTimeRemainingPatchController.Apply();
 
             stopwatch.Stop();
             Log.Info_NoCallerPrefix($"Initialized in {stopwatch.Elapsed.TotalSeconds:F2} seconds");
@@ -36,6 +37,7 @@ namespace NoMoreMath
             EffectiveHealth.PatchController.Cleanup();
             EffectivePurchaseCost.EffectivePurchaseCostPatchController.Cleanup();
             BloodShrine.BloodShrineAmountGainedPatchController.Cleanup();
+            HoldoutZoneTimeRemaining.HoldoutZoneTimeRemainingPatchController.Cleanup();
         }
     }
 }
