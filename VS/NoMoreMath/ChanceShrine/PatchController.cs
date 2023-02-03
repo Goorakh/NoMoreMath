@@ -20,18 +20,25 @@ namespace NoMoreMath.ChanceShrine
                     uint playerMoney = master.money;
 
                     uint affordableActivations = 0;
-                    long currentCost = purchaseInteraction.Networkcost;
+                    int currentCost = purchaseInteraction.Networkcost;
 
                     while (playerMoney >= currentCost)
                     {
-                        playerMoney -= (uint)currentCost;
-                        currentCost = (long)(currentCost * shrineChanceBehavior.costMultiplierPerPurchase);
+                        playerMoney -= (uint)CostUtils.GetEffectiveCost(currentCost, master);
+                        currentCost = (int)(currentCost * shrineChanceBehavior.costMultiplierPerPurchase);
                         affordableActivations++;
                     }
 
                     stringBuilder.Append(affordableActivations);
 
-                    stringBuilder.Append(" activations)");
+                    stringBuilder.Append(" activation");
+                    
+                    if (affordableActivations != 1)
+                    {
+                        stringBuilder.Append('s');
+                    }
+
+                    stringBuilder.Append(')');
 
                     string result = stringBuilder.ToString();
                     HG.StringBuilderPool.ReturnStringBuilder(stringBuilder);

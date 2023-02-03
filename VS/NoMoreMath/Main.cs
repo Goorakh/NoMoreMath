@@ -21,6 +21,8 @@ namespace NoMoreMath
 
             GoldShoresBeacons.PatchController.Apply();
             ChanceShrine.PatchController.Apply();
+            EffectiveHealth.PatchController.Apply();
+            EffectivePurchaseCost.PatchController.Apply();
 
             stopwatch.Stop();
             Log.Info_NoCallerPrefix($"Initialized in {stopwatch.Elapsed.TotalSeconds:F2} seconds");
@@ -30,6 +32,8 @@ namespace NoMoreMath
         {
             GoldShoresBeacons.PatchController.Cleanup();
             ChanceShrine.PatchController.Cleanup();
+            EffectiveHealth.PatchController.Cleanup();
+            EffectivePurchaseCost.PatchController.Cleanup();
         }
     }
 }

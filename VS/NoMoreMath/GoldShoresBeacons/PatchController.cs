@@ -1,6 +1,6 @@
-﻿using EntityStates.Interactables.GoldBeacon;
-using RoR2;
+﻿using RoR2;
 using RoR2.UI;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 
@@ -31,23 +31,27 @@ namespace NoMoreMath.GoldShoresBeacons
                 GoldshoresMissionController missionController = beaconTracker.missionController;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
-                int totalCost = 0;
-                foreach (GameObject beaconObject in missionController.beaconInstanceList)
+                int[] costs = new int[missionController.beaconCount];
+
+                for (int i = 0; i < missionController.beaconInstanceList.Count; i++)
                 {
+                    GameObject beaconObject = missionController.beaconInstanceList[i];
                     if (!beaconObject)
                         continue;
 
                     PurchaseInteraction purchaseInteraction = beaconObject.GetComponent<PurchaseInteraction>();
                     if (purchaseInteraction && purchaseInteraction.available)
                     {
-                        totalCost += purchaseInteraction.Networkcost;
+                        costs[i] = purchaseInteraction.Networkcost;
                     }
                 }
 
+                CharacterMaster localPlayerMaster = PlayerUtils.GetLocalUserMaster();
+                int totalEffectiveCost = CostUtils.GetTotalEffectiveCost(localPlayerMaster, costs);
+
                 stringBuilder.Append(" (<color=#");
 
-                CharacterMaster localPlayerMaster = PlayerUtils.GetLocalUserMaster();
-                bool canAfford = localPlayerMaster && localPlayerMaster.money >= totalCost;
+                bool canAfford = localPlayerMaster && localPlayerMaster.money >= totalEffectiveCost;
 
                 if (canAfford)
                 {
@@ -58,8 +62,21 @@ namespace NoMoreMath.GoldShoresBeacons
                     stringBuilder.Append("FF0000");
                 }
 
-                stringBuilder.Append(">$");
-                stringBuilder.Append(totalCost);
+                stringBuilder.Append('>');
+
+                CostTypeDef costType = CostTypeCatalog.GetCostTypeDef(CostTypeIndex.Money);
+
+                EffectivePurchaseCost.PatchController.DisableBuildCostStringPatch = true;
+                int cost = costs.Sum();
+                costType.BuildCostStringStyled(cost, stringBuilder, false, false);
+
+                if (cost != totalEffectiveCost)
+                {
+                    CostUtils.FormatEffectiveCost(costType, totalEffectiveCost, stringBuilder, false, false);
+                }
+
+                EffectivePurchaseCost.PatchController.DisableBuildCostStringPatch = false;
+
                 stringBuilder.Append("</color>)");
             }
             else
