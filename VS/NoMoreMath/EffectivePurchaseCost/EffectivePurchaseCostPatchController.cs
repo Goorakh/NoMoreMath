@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace NoMoreMath.EffectivePurchaseCost
 {
-    static class PatchController
+    public static class EffectivePurchaseCostPatchController
     {
         public static bool DisableBuildCostStringPatch;
 

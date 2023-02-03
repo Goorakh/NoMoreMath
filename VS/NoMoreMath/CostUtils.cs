@@ -68,9 +68,9 @@ namespace NoMoreMath
         {
             stringBuilder.Append(" {Eff. ");
 
-            EffectivePurchaseCost.PatchController.DisableBuildCostStringPatch = true;
+            EffectivePurchaseCost.EffectivePurchaseCostPatchController.DisableBuildCostStringPatch = true;
             costType.BuildCostStringStyled(effectiveCost, stringBuilder, forWorldDisplay, includeColor);
-            EffectivePurchaseCost.PatchController.DisableBuildCostStringPatch = false;
+            EffectivePurchaseCost.EffectivePurchaseCostPatchController.DisableBuildCostStringPatch = false;
 
             stringBuilder.Append("}");
         }

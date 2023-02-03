@@ -66,7 +66,7 @@ namespace NoMoreMath.GoldShoresBeacons
 
                 CostTypeDef costType = CostTypeCatalog.GetCostTypeDef(CostTypeIndex.Money);
 
-                EffectivePurchaseCost.PatchController.DisableBuildCostStringPatch = true;
+                EffectivePurchaseCost.EffectivePurchaseCostPatchController.DisableBuildCostStringPatch = true;
                 int cost = costs.Sum();
                 costType.BuildCostStringStyled(cost, stringBuilder, false, false);
 
@@ -75,7 +75,7 @@ namespace NoMoreMath.GoldShoresBeacons
                     CostUtils.FormatEffectiveCost(costType, totalEffectiveCost, stringBuilder, false, false);
                 }
 
-                EffectivePurchaseCost.PatchController.DisableBuildCostStringPatch = false;
+                EffectivePurchaseCost.EffectivePurchaseCostPatchController.DisableBuildCostStringPatch = false;
 
                 stringBuilder.Append("</color>)");
             }
