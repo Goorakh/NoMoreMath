@@ -7,21 +7,11 @@ namespace NoMoreMath.ChanceShrine
 {
     static class PatchController
     {
-        static CharacterMaster getMasterFromInteractor(Interactor interactor)
-        {
-            if (interactor.TryGetComponent(out CharacterBody body))
-            {
-                return body.master;
-            }
-
-            return null;
-        }
-
-        static string getChanceShrineActivationCountString(PurchaseInteraction purchaseInteraction, Interactor interactor)
+        static string getChanceShrineActivationCountString(PurchaseInteraction purchaseInteraction)
         {
             if (purchaseInteraction.TryGetComponent<ShrineChanceBehavior>(out ShrineChanceBehavior shrineChanceBehavior))
             {
-                CharacterMaster master = interactor ? getMasterFromInteractor(interactor) : PlayerUtils.GetLocalUserMaster();
+                CharacterMaster master = PlayerUtils.GetLocalUserMaster();
                 if (master)
                 {
                     StringBuilder stringBuilder = HG.StringBuilderPool.RentStringBuilder();
@@ -29,13 +19,13 @@ namespace NoMoreMath.ChanceShrine
 
                     uint playerMoney = master.money;
 
-                    int affordableActivations = 0;
-                    int currentCost = purchaseInteraction.Networkcost;
+                    uint affordableActivations = 0;
+                    long currentCost = purchaseInteraction.Networkcost;
 
                     while (playerMoney >= currentCost)
                     {
                         playerMoney -= (uint)currentCost;
-                        currentCost = (int)(currentCost * shrineChanceBehavior.costMultiplierPerPurchase);
+                        currentCost = (long)(currentCost * shrineChanceBehavior.costMultiplierPerPurchase);
                         affordableActivations++;
                     }
 
@@ -66,12 +56,12 @@ namespace NoMoreMath.ChanceShrine
 
         static string PurchaseInteraction_GetContextString(On.RoR2.PurchaseInteraction.orig_GetContextString orig, PurchaseInteraction self, Interactor activator)
         {
-            return orig(self, activator) + getChanceShrineActivationCountString(self, activator);
+            return orig(self, activator) + getChanceShrineActivationCountString(self);
         }
 
         static string PurchaseInteraction_GetDisplayName(On.RoR2.PurchaseInteraction.orig_GetDisplayName orig, PurchaseInteraction self)
         {
-            return orig(self) + getChanceShrineActivationCountString(self, null);
+            return orig(self) + getChanceShrineActivationCountString(self);
         }
     }
 }
