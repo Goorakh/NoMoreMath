@@ -14,22 +14,43 @@ namespace NoMoreMath.ChanceShrine
                 CharacterMaster master = PlayerUtils.GetLocalUserMaster();
                 if (master)
                 {
-                    StringBuilder stringBuilder = HG.StringBuilderPool.RentStringBuilder();
-                    stringBuilder.Append(" (");
-
                     uint playerMoney = master.money;
 
                     uint affordableActivations = 0;
                     int currentCost = purchaseInteraction.Networkcost;
 
-                    while (playerMoney >= currentCost)
+                    if (currentCost > 0)
                     {
-                        playerMoney -= (uint)CostUtils.GetEffectiveCost(currentCost, master);
-                        currentCost = (int)(currentCost * shrineChanceBehavior.costMultiplierPerPurchase);
-                        affordableActivations++;
+                        while (playerMoney >= currentCost)
+                        {
+                            uint effectiveCost = (uint)CostUtils.GetEffectiveCost(currentCost, master);
+                            if (effectiveCost == 0)
+                            {
+                                affordableActivations = uint.MaxValue;
+                                break;
+                            }
+
+                            playerMoney -= effectiveCost;
+                            currentCost = (int)(currentCost * shrineChanceBehavior.costMultiplierPerPurchase);
+                            affordableActivations++;
+                        }
+                    }
+                    else
+                    {
+                        affordableActivations = uint.MaxValue;
                     }
 
-                    stringBuilder.Append(affordableActivations);
+                    StringBuilder stringBuilder = HG.StringBuilderPool.RentStringBuilder();
+                    stringBuilder.Append(" (");
+
+                    if (affordableActivations == uint.MaxValue)
+                    {
+                        stringBuilder.Append("INF.");
+                    }
+                    else
+                    {
+                        stringBuilder.Append(affordableActivations);
+                    }
 
                     stringBuilder.Append(" activation");
                     

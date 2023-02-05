@@ -1,3 +1,7 @@
+**1.1.1 Changes:**
+
+* Fixed a bug where the game would freeze if hacking beacons are used on Chance Shrines
+
 **1.1.0 Changes:**
 
 * Added "Effective Cost" to all interactables. This value is the amount of money you will lose after buying it (if you have Executive Card, the effective cost is 90% of the actual cost)
