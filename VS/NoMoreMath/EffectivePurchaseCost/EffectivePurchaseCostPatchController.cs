@@ -1,4 +1,5 @@
-﻿using RoR2;
+﻿using NoMoreMath.Utility;
+using RoR2;
 using System.Text;
 using UnityEngine;
 

@@ -1,4 +1,6 @@
-﻿using RoR2;
+﻿using NoMoreMath.Utility;
+using NoMoreMath.Utility.Extensions;
+using RoR2;
 using RoR2.UI;
 using System.Linq;
 using System.Text;
@@ -86,9 +88,7 @@ namespace NoMoreMath.GoldShoresBeacons
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
             }
 
-            string result = orig(self) + stringBuilder.ToString();
-            HG.StringBuilderPool.ReturnStringBuilder(stringBuilder);
-            return result;
+            return orig(self) + stringBuilder.GetAndReturnToPool();
         }
 
         static bool ActivateGoldshoreBeaconTracker_IsDirty(On.RoR2.UI.ObjectivePanelController.ActivateGoldshoreBeaconTracker.orig_IsDirty orig, ObjectivePanelController.ObjectiveTracker self)

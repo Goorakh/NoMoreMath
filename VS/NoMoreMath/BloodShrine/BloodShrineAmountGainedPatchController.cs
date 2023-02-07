@@ -1,4 +1,5 @@
 ﻿using NoMoreMath.EffectivePurchaseCost;
+using NoMoreMath.Utility;
 using RoR2;
 using System;
 using System.Collections.Generic;
@@ -32,11 +33,7 @@ namespace NoMoreMath.BloodShrine
 
                         stringBuilder.Append(')');
 
-                        string result = stringBuilder.ToString();
-
-                        HG.StringBuilderPool.ReturnStringBuilder(stringBuilder);
-
-                        return result;
+                        return stringBuilder.GetAndReturnToPool();
                     }
                 }
             }

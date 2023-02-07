@@ -1,6 +1,6 @@
 ﻿using RoR2;
 
-namespace NoMoreMath
+namespace NoMoreMath.Utility
 {
     public static class PlayerUtils
     {

@@ -3,7 +3,7 @@ using RoR2.Items;
 using System.Linq;
 using System.Text;
 
-namespace NoMoreMath
+namespace NoMoreMath.Utility
 {
     public static class CostUtils
     {

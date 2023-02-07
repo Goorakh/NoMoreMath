@@ -1,4 +1,6 @@
-﻿using RoR2;
+﻿using NoMoreMath.Utility;
+using NoMoreMath.Utility.Extensions;
+using RoR2;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -61,9 +63,7 @@ namespace NoMoreMath.ChanceShrine
 
                     stringBuilder.Append(')');
 
-                    string result = stringBuilder.ToString();
-                    HG.StringBuilderPool.ReturnStringBuilder(stringBuilder);
-                    return result;
+                    return stringBuilder.GetAndReturnToPool();
                 }
             }
 

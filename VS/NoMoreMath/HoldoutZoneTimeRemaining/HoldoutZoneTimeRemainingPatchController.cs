@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
+using NoMoreMath.Utility.Extensions;
 using RoR2;
 using RoR2.UI;
 using System;
@@ -39,9 +40,7 @@ namespace NoMoreMath.HoldoutZoneTimeRemaining
 
                     stringBuilder.Append(" (").Append(remainingTime.ToString($"F{precision}")).Append(" s)");
 
-                    string result = stringBuilder.ToString();
-                    HG.StringBuilderPool.ReturnStringBuilder(stringBuilder);
-                    return result;
+                    return stringBuilder.GetAndReturnToPool();
                 }
                 else
                 {
