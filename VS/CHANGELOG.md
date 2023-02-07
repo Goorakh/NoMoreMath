@@ -1,4 +1,4 @@
-**(Next Version) Changes:**
+**1.1.2 Changes:**
 
 * Fixed holdout zone time remaining not working for clients in multiplayer
 
