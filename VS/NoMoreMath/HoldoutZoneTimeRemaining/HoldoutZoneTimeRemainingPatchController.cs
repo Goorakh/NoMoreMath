@@ -6,6 +6,7 @@ using RoR2.UI;
 using System;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace NoMoreMath.HoldoutZoneTimeRemaining
 {
@@ -24,8 +25,19 @@ namespace NoMoreMath.HoldoutZoneTimeRemaining
                     float remainingTime = remainingCharge / chargeRate;
 
                     StringBuilder stringBuilder = HG.StringBuilderPool.RentStringBuilder();
+                    
+                    int precision;
+                    if (NetworkServer.active)
+                    {
+                        precision = 1;
+                    }
+                    else
+                    {
+                        remainingTime = Mathf.Round(remainingTime);
+                        precision = 0;
+                    }
 
-                    stringBuilder.Append(" (").Append(remainingTime.ToString("F1")).Append(" s)");
+                    stringBuilder.Append(" (").Append(remainingTime.ToString($"F{precision}")).Append(" s)");
 
                     string result = stringBuilder.ToString();
                     HG.StringBuilderPool.ReturnStringBuilder(stringBuilder);
@@ -43,25 +55,43 @@ namespace NoMoreMath.HoldoutZoneTimeRemaining
         public static void Apply()
         {
             On.RoR2.HoldoutZoneController.Awake += HoldoutZoneController_Awake;
+            On.RoR2.HoldoutZoneController.OnEnable += HoldoutZoneController_OnEnable;
+
             IL.RoR2.HoldoutZoneController.FixedUpdate += HoldoutZoneController_FixedUpdate;
 
             On.RoR2.HoldoutZoneController.ChargeHoldoutZoneObjectiveTracker.GenerateString += ChargeHoldoutZoneObjectiveTracker_GenerateString;
             //On.RoR2.UI.ChargeIndicatorController.Update += ChargeIndicatorController_Update;
+
+            IL.RoR2.HoldoutZoneController.OnDeserialize += HoldoutZoneController_OnDeserialize;
         }
 
         public static void Cleanup()
         {
             On.RoR2.HoldoutZoneController.Awake -= HoldoutZoneController_Awake;
+            On.RoR2.HoldoutZoneController.OnEnable -= HoldoutZoneController_OnEnable;
+
             IL.RoR2.HoldoutZoneController.FixedUpdate -= HoldoutZoneController_FixedUpdate;
 
             On.RoR2.HoldoutZoneController.ChargeHoldoutZoneObjectiveTracker.GenerateString -= ChargeHoldoutZoneObjectiveTracker_GenerateString;
             //On.RoR2.UI.ChargeIndicatorController.Update -= ChargeIndicatorController_Update;
+
+            IL.RoR2.HoldoutZoneController.OnDeserialize -= HoldoutZoneController_OnDeserialize;
         }
 
         static void HoldoutZoneController_Awake(On.RoR2.HoldoutZoneController.orig_Awake orig, HoldoutZoneController self)
         {
             orig(self);
             self.gameObject.GetOrAddComponent<HoldoutZoneChargeRateTracker>();
+        }
+
+        static void HoldoutZoneController_OnEnable(On.RoR2.HoldoutZoneController.orig_OnEnable orig, HoldoutZoneController self)
+        {
+            orig(self);
+
+            if (self.TryGetComponent(out HoldoutZoneChargeRateTracker chargeRateTracker))
+            {
+                chargeRateTracker.OnHoldoutZoneStarted();
+            }
         }
 
         static void HoldoutZoneController_FixedUpdate(ILContext il)
@@ -107,6 +137,30 @@ namespace NoMoreMath.HoldoutZoneTimeRemaining
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
             return orig(self) + getChargeTimeRemainingString(holdoutZoneController);
+        }
+
+        static void HoldoutZoneController_OnDeserialize(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+
+#pragma warning disable Publicizer001 // Accessing a member that was not originally public
+            const string CHARGE_FIELD_NAME = nameof(HoldoutZoneController._charge);
+#pragma warning restore Publicizer001 // Accessing a member that was not originally public
+
+            while (c.TryGotoNext(MoveType.Before, x => x.MatchStfld<HoldoutZoneController>(CHARGE_FIELD_NAME)))
+            {
+                c.Emit(OpCodes.Dup);
+                c.Emit(OpCodes.Ldarg_0);
+                c.EmitDelegate((float charge, HoldoutZoneController instance) =>
+                {
+                    if (instance.TryGetComponent(out HoldoutZoneChargeRateTracker chargeRateTracker))
+                    {
+                        chargeRateTracker.OnChargeReceived(charge);
+                    }
+                });
+
+                c.Index++;
+            }
         }
 
         static void ChargeIndicatorController_Update(On.RoR2.UI.ChargeIndicatorController.orig_Update orig, ChargeIndicatorController self)

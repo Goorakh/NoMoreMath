@@ -1,3 +1,7 @@
+**(Next Version) Changes:**
+
+* Fixed holdout zone time remaining not working for clients in multiplayer
+
 **1.1.1 Changes:**
 
 * Fixed a bug where the game would freeze if hacking beacons are used on Chance Shrines
