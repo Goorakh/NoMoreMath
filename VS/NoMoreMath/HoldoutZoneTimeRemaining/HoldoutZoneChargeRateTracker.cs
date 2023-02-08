@@ -12,7 +12,7 @@ namespace NoMoreMath.HoldoutZoneTimeRemaining
 
         bool _hasReceivedNetworkChargeRate;
 
-        const int NETWORK_CHARGE_RATE_DIRTY_BIT = 1;
+        const int NETWORK_CHARGE_RATE_DIRTY_BIT = 0;
         void setNetworkChargeRateDirty()
         {
 #if DEBUG
