@@ -17,7 +17,7 @@ Displays the estimated time in seconds it will take to fully charge a holdout zo
 
 ![holdoutchargetime](https://cdn.discordapp.com/attachments/526159007442927648/1071105777646981270/image.png)
 
-Note that for client players in multiplayer this value won't be as accurate as the host or in singleplayer, and will fluctuate at low charge percentages. I will be working on a better solution that fixes this properly soon(tm).
+Note that for client players in multiplayer where the host also doesn't have the mod, this value won't be as accurate as it would be for the host or in singleplayer, and will fluctuate at low charge percentages. I will be working on a better solution that fixes this properly soon(tm).
 
 ## Halcyon Beacons
 Displays the total cost needed to buy all remaining beacons and changes color depending on if you can afford it or not.

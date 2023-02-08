@@ -1,6 +1,7 @@
 **(Next Version) Changes:**
 
 * Added Effective Health
+* Improved accuracy of Holdout Zone Charge time estimation for client players if the host player also has the mod. (Still works without the host having the mod, but will not be as accurate)
 
 **1.1.2 Changes:**
 

@@ -4,7 +4,6 @@ using MonoMod.Cil;
 using NoMoreMath.Utility.Extensions;
 using RoR2;
 using RoR2.UI;
-using System;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -17,34 +16,24 @@ namespace NoMoreMath.HoldoutZoneTimeRemaining
         {
             if (holdoutZoneController)
             {
-                HoldoutZoneChargeRateTracker chargeRateTracker = holdoutZoneController.gameObject.GetOrAddComponent<HoldoutZoneChargeRateTracker>();
-
-                float chargeRate = chargeRateTracker.PositiveChargeRate;
-                if (chargeRate > 0f)
+                if (holdoutZoneController.TryGetComponent(out HoldoutZoneChargeRateTracker chargeRateTracker))
                 {
-                    float remainingCharge = 1f - holdoutZoneController.charge;
-                    float remainingTime = remainingCharge / chargeRate;
-
-                    StringBuilder stringBuilder = HG.StringBuilderPool.RentStringBuilder();
-                    
-                    int precision;
-                    if (NetworkServer.active)
+                    float chargeRate = chargeRateTracker.PositiveChargeRate;
+                    if (chargeRate > 0f)
                     {
-                        precision = 1;
+                        float remainingCharge = 1f - holdoutZoneController.charge;
+                        float remainingTime = remainingCharge / chargeRate;
+
+                        StringBuilder stringBuilder = HG.StringBuilderPool.RentStringBuilder();
+
+                        stringBuilder.Append(" (").Append(chargeRateTracker.FormatRemainingTime(remainingTime)).Append(" s)");
+
+                        return stringBuilder.GetAndReturnToPool();
                     }
                     else
                     {
-                        remainingTime = Mathf.Round(remainingTime);
-                        precision = 0;
+                        return " (N/A s)";
                     }
-
-                    stringBuilder.Append(" (").Append(remainingTime.ToString($"F{precision}")).Append(" s)");
-
-                    return stringBuilder.GetAndReturnToPool();
-                }
-                else
-                {
-                    return " (N/A s)";
                 }
             }
 
@@ -59,7 +48,6 @@ namespace NoMoreMath.HoldoutZoneTimeRemaining
             IL.RoR2.HoldoutZoneController.FixedUpdate += HoldoutZoneController_FixedUpdate;
 
             On.RoR2.HoldoutZoneController.ChargeHoldoutZoneObjectiveTracker.GenerateString += ChargeHoldoutZoneObjectiveTracker_GenerateString;
-            //On.RoR2.UI.ChargeIndicatorController.Update += ChargeIndicatorController_Update;
 
             IL.RoR2.HoldoutZoneController.OnDeserialize += HoldoutZoneController_OnDeserialize;
         }
@@ -72,7 +60,6 @@ namespace NoMoreMath.HoldoutZoneTimeRemaining
             IL.RoR2.HoldoutZoneController.FixedUpdate -= HoldoutZoneController_FixedUpdate;
 
             On.RoR2.HoldoutZoneController.ChargeHoldoutZoneObjectiveTracker.GenerateString -= ChargeHoldoutZoneObjectiveTracker_GenerateString;
-            //On.RoR2.UI.ChargeIndicatorController.Update -= ChargeIndicatorController_Update;
 
             IL.RoR2.HoldoutZoneController.OnDeserialize -= HoldoutZoneController_OnDeserialize;
         }
@@ -154,25 +141,11 @@ namespace NoMoreMath.HoldoutZoneTimeRemaining
                 {
                     if (instance.TryGetComponent(out HoldoutZoneChargeRateTracker chargeRateTracker))
                     {
-                        chargeRateTracker.OnChargeReceived(charge);
+                        chargeRateTracker.OnServerChargeReceived(charge);
                     }
                 });
 
                 c.Index++;
-            }
-        }
-
-        static void ChargeIndicatorController_Update(On.RoR2.UI.ChargeIndicatorController.orig_Update orig, ChargeIndicatorController self)
-        {
-            orig(self);
-
-            if (self && self.chargingText && self.chargingText.enabled)
-            {
-                string timeRemainingString = getChargeTimeRemainingString(self.holdoutZoneController);
-                if (!string.IsNullOrEmpty(timeRemainingString))
-                {
-                    self.chargingText.text += timeRemainingString;
-                }
             }
         }
     }

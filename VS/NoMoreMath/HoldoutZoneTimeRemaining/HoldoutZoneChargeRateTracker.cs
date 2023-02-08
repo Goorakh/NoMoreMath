@@ -6,9 +6,32 @@ using UnityEngine.Networking;
 namespace NoMoreMath.HoldoutZoneTimeRemaining
 {
     [RequireComponent(typeof(HoldoutZoneController))]
-    public class HoldoutZoneChargeRateTracker : MonoBehaviour
+    public class HoldoutZoneChargeRateTracker : NetworkBehaviour
     {
         HoldoutZoneController _holdoutZoneController;
+
+        bool _hasReceivedNetworkChargeRate;
+
+        const int NETWORK_CHARGE_RATE_DIRTY_BIT = 1;
+        void setNetworkChargeRateDirty()
+        {
+#if DEBUG
+            Log.Debug("Network Charge Rate set dirty");
+#endif
+            SetDirtyBit(1 << NETWORK_CHARGE_RATE_DIRTY_BIT);
+        }
+
+        public string FormatRemainingTime(float remainingTime)
+        {
+            if (NetworkServer.active || _hasReceivedNetworkChargeRate)
+            {
+                return remainingTime.ToString("F1");
+            }
+            else
+            {
+                return Mathf.RoundToInt(remainingTime).ToString();
+            }
+        }
 
         public float LastPositiveChargeRate { get; private set; }
         public float CurrentChargeRate { get; private set; }
@@ -28,7 +51,7 @@ namespace NoMoreMath.HoldoutZoneTimeRemaining
             }
         }
 
-        struct ClientsideVariables
+        struct ChargeRateEstimator
         {
             readonly HoldoutZoneChargeRateTracker _owner;
 
@@ -37,7 +60,7 @@ namespace NoMoreMath.HoldoutZoneTimeRemaining
 
             float _targetChargeRate;
 
-            public ClientsideVariables(HoldoutZoneChargeRateTracker owner)
+            public ChargeRateEstimator(HoldoutZoneChargeRateTracker owner)
             {
                 _owner = owner;
             }
@@ -82,7 +105,7 @@ namespace NoMoreMath.HoldoutZoneTimeRemaining
                 _lastChargeReceiveTime = currentTime;
             }
         }
-        ClientsideVariables _client;
+        ChargeRateEstimator _clientEstimator;
 
         void Awake()
         {
@@ -90,41 +113,107 @@ namespace NoMoreMath.HoldoutZoneTimeRemaining
 
             if (!NetworkServer.active)
             {
-                _client = new ClientsideVariables(this);
+                _clientEstimator = new ChargeRateEstimator(this);
             }
         }
 
         public void OnHoldoutZoneStarted()
         {
-            if (NetworkServer.active)
+            if (NetworkServer.active || _hasReceivedNetworkChargeRate)
                 return;
 
-            _client.RecordCurrentCharge();
+            _clientEstimator.RecordCurrentCharge();
         }
 
-        public void OnChargeReceived(float newCharge)
+        public void OnServerChargeReceived(float newCharge)
         {
-            if (NetworkServer.active)
+            if (NetworkServer.active || _hasReceivedNetworkChargeRate)
                 return;
 
-            _client.OnChargeReceived(newCharge);
+            _clientEstimator.OnChargeReceived(newCharge);
         }
 
         void Update()
         {
-            if (NetworkServer.active)
+            if (NetworkServer.active || _hasReceivedNetworkChargeRate)
                 return;
-
-            _client.Update(Time.deltaTime);
+            
+            _clientEstimator.Update(Time.deltaTime);
         }
 
         public void RecordChargeRate(float rate)
         {
+            if (NetworkServer.active && rate != CurrentChargeRate)
+            {
+                setNetworkChargeRateDirty();
+            }
+
             CurrentChargeRate = rate;
 
             if (rate > 0f)
             {
                 LastPositiveChargeRate = rate;
+            }
+        }
+
+        public override bool OnSerialize(NetworkWriter writer, bool initialState)
+        {
+            if (initialState)
+            {
+                writer.Write(CurrentChargeRate);
+                return true;
+            }
+
+            uint dirtyBits = syncVarDirtyBits;
+            writer.Write(dirtyBits);
+
+            bool writtenAnything = false;
+
+            if ((dirtyBits & (1 << NETWORK_CHARGE_RATE_DIRTY_BIT)) != 0)
+            {
+                writer.Write(CurrentChargeRate);
+                writtenAnything |= true;
+            }
+
+            return writtenAnything;
+        }
+
+        public override void OnDeserialize(NetworkReader reader, bool initialState)
+        {
+            if (reader.Position == reader.Length)
+            {
+#if DEBUG
+                Log.Debug($"empty reader received, server most likely doesn't have the mod");
+#endif
+                return;
+            }
+
+            if (initialState)
+            {
+                float chargeRate = reader.ReadSingle();
+
+#if DEBUG
+                Log.Debug($"Network Charge Rate received, {nameof(chargeRate)}={chargeRate} ({nameof(initialState)})");
+#endif
+
+                RecordChargeRate(chargeRate);
+                _hasReceivedNetworkChargeRate = true;
+                return;
+            }
+
+            uint dirtyBits = reader.ReadUInt32();
+
+            if ((dirtyBits & (1 << NETWORK_CHARGE_RATE_DIRTY_BIT)) != 0)
+            {
+                _hasReceivedNetworkChargeRate = true;
+
+                float chargeRate = reader.ReadSingle();
+
+#if DEBUG
+                Log.Debug($"Network Charge Rate received, {nameof(chargeRate)}={chargeRate}");
+#endif
+
+                RecordChargeRate(chargeRate);
             }
         }
     }
