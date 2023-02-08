@@ -1,6 +1,9 @@
-Blood shrine: Account for money gained/lost by Brittle Crown & Pennies?
+Equipment Drone Cooldown
 
-Effective Health:
-Armor
-Adaptive Armor
-Debuffs that increase damage: Deathmark
+Trishops: Display total cost of all if you have card
+
+Blood shrine:
+	Account for money gained/lost by Brittle Crown & Pennies?
+
+Health cost:
+	Display amount of health that will be lost
