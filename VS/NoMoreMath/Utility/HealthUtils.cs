@@ -7,7 +7,7 @@ namespace NoMoreMath.Utility
         public static bool IsInvincible(CharacterBody characterBody)
         {
             HealthComponent healthComponent = characterBody.healthComponent;
-            if (healthComponent.godMode)
+            if (!healthComponent || healthComponent.godMode)
                 return true;
 
             if (characterBody.HasBuff(DLC1Content.Buffs.BearVoidReady))
@@ -39,12 +39,24 @@ namespace NoMoreMath.Utility
                 effectiveHealth /= 1.5f;
             }
 
+            HealthComponent healthComponent = characterBody.healthComponent;
+
+            float adaptiveArmor;
+            if (healthComponent)
+            {
 #pragma warning disable Publicizer001 // Accessing a member that was not originally public
-            float armor = characterBody.armor + characterBody.healthComponent.adaptiveArmorValue;
+                adaptiveArmor = healthComponent.adaptiveArmorValue;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
+            }
+            else
+            {
+                adaptiveArmor = 0f;
+            }
+
+            float armor = characterBody.armor + adaptiveArmor;
 
             float damageMultiplierFromArmor = armor >= 0f ? 1f - (armor / (armor + 100f))
-                                                            : 2f - (100f / (100f - armor));
+                                                          : 2f - (100f / (100f - armor));
 
             effectiveHealth /= damageMultiplierFromArmor;
 
