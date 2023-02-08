@@ -2,6 +2,11 @@
 
 Reduces the need for tedious head math, or maybe you're just bad at it. Clientside.
 
+## Effective Health
+Displays the total amount of damage that needs to be dealt to kill you
+
+![effectivehealth](https://cdn.discordapp.com/attachments/526159007442927648/1072711415514804264/image.png)
+
 ## Effective Cost
 Displays the total amount of money you will lose in a transaction. For example, having the Executive Card will reduce the effective cost by 10%.
 

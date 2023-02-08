@@ -21,7 +21,7 @@ namespace NoMoreMath
 
             GoldShoresBeacons.PatchController.Apply();
             ChanceShrine.PatchController.Apply();
-            EffectiveHealth.PatchController.Apply();
+            EffectiveHealth.EffectiveHealthPatchController.Apply();
             EffectivePurchaseCost.EffectivePurchaseCostPatchController.Apply();
             BloodShrine.BloodShrineAmountGainedPatchController.Apply();
             HoldoutZoneTimeRemaining.HoldoutZoneTimeRemainingPatchController.Apply();
@@ -48,7 +48,7 @@ namespace NoMoreMath
         {
             GoldShoresBeacons.PatchController.Cleanup();
             ChanceShrine.PatchController.Cleanup();
-            EffectiveHealth.PatchController.Cleanup();
+            //EffectiveHealth.EffectiveHealthPatchController.Cleanup();
             EffectivePurchaseCost.EffectivePurchaseCostPatchController.Cleanup();
             BloodShrine.BloodShrineAmountGainedPatchController.Cleanup();
             HoldoutZoneTimeRemaining.HoldoutZoneTimeRemainingPatchController.Cleanup();
