@@ -24,7 +24,7 @@ namespace NoMoreMath
             EffectiveHealth = config.Bind("Formatting", "Effective Health String", "<size=18>(Eff. {amount})</size>", "{amount} will be replaced. Set to blank to disable.");
             EffectiveFullHealth = config.Bind("Formatting", "Effective Full Health String", "<size=18>(Eff. {amount})</size>", "{amount}, {relative} will be replaced. Set to blank to disable.");
             EffectivePurchaseCost = config.Bind("Formatting", "Effective Purchase Cost String", "{Eff. {styleOnlyOnTooltip}${amount}{/styleOnlyOnTooltip}}", "{amount}, {relative}, {styleOnlyOnTooltip}, {/styleOnlyOnTooltip} will be replaced. Set to blank to disable.");
-            GoldShoresBeacons = config.Bind("Formatting", "Gold Shores Beacons String", "(<color={color}>${amount}</color>)", "{color}, {amount} will be replaced. Set to blank to disable.");
+            GoldShoresBeacons = config.Bind("Formatting", "Gilded Coast Beacons String", "(<color={color}>${amount}</color>)", "{color}, {amount} will be replaced. Set to blank to disable.");
             HoldoutZoneTimeRemaining = config.Bind("Formatting", "Holdout Zone Time Remaining String", "({second} s)", "{second} will be replaced. Set to blank to disable.");
         }
     }
