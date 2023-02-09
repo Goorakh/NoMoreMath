@@ -11,29 +11,17 @@ namespace NoMoreMath.BloodShrine
     {
         static string getShrineAmountGivenString(PurchaseInteraction purchaseInteraction)
         {
-            if (purchaseInteraction.TryGetComponent<ShrineBloodBehavior>(out ShrineBloodBehavior shrineBloodBehavior))
+            if (purchaseInteraction.TryGetComponent(out ShrineBloodBehavior shrineBloodBehavior))
             {
                 CharacterMaster playerMaster = PlayerUtils.GetLocalUserMaster();
                 if (playerMaster)
                 {
                     CharacterBody body = playerMaster.GetBody();
-                    if (body)
+                    if (body && Config.BloodShrineMoney.Value != "")
                     {
                         int amountGained = (int)(body.healthComponent.fullCombinedHealth * (purchaseInteraction.cost / 100f * shrineBloodBehavior.goldToPaidHpRatio));
-
-                        CostTypeDef costTypeDef = CostTypeCatalog.GetCostTypeDef(CostTypeIndex.Money);
-
-                        StringBuilder stringBuilder = HG.StringBuilderPool.RentStringBuilder();
-
-                        stringBuilder.Append(" (+");
-
-                        EffectivePurchaseCostPatchController.DisableBuildCostStringPatch = true;
-                        costTypeDef.BuildCostStringStyled(amountGained, stringBuilder, false, true);
-                        EffectivePurchaseCostPatchController.DisableBuildCostStringPatch = false;
-
-                        stringBuilder.Append(')');
-
-                        return stringBuilder.GetAndReturnToPool();
+                        return " " + Config.BloodShrineMoney.Value
+                            .Replace("{amount}", amountGained.ToString());
                     }
                 }
             }

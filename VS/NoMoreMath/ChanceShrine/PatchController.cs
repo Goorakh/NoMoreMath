@@ -11,10 +11,10 @@ namespace NoMoreMath.ChanceShrine
     {
         static string getChanceShrineActivationCountString(PurchaseInteraction purchaseInteraction)
         {
-            if (purchaseInteraction.TryGetComponent<ShrineChanceBehavior>(out ShrineChanceBehavior shrineChanceBehavior))
+            if (purchaseInteraction.TryGetComponent(out ShrineChanceBehavior shrineChanceBehavior))
             {
                 CharacterMaster master = PlayerUtils.GetLocalUserMaster();
-                if (master)
+                if (master && Config.ChanceShrineUses.Value != "")
                 {
                     uint playerMoney = master.money;
 
@@ -37,33 +37,11 @@ namespace NoMoreMath.ChanceShrine
                             affordableActivations++;
                         }
                     }
-                    else
-                    {
-                        affordableActivations = uint.MaxValue;
-                    }
+                    else affordableActivations = uint.MaxValue;
 
-                    StringBuilder stringBuilder = HG.StringBuilderPool.RentStringBuilder();
-                    stringBuilder.Append(" (");
-
-                    if (affordableActivations == uint.MaxValue)
-                    {
-                        stringBuilder.Append("INF.");
-                    }
-                    else
-                    {
-                        stringBuilder.Append(affordableActivations);
-                    }
-
-                    stringBuilder.Append(" activation");
-                    
-                    if (affordableActivations != 1)
-                    {
-                        stringBuilder.Append('s');
-                    }
-
-                    stringBuilder.Append(')');
-
-                    return stringBuilder.GetAndReturnToPool();
+                    return " " + Config.ChanceShrineUses.Value
+                        .Replace("{amount}", affordableActivations == uint.MaxValue ? "INF." : affordableActivations.ToString())
+                        .Replace("{s}", affordableActivations > 1 ? "s" : "");
                 }
             }
 

@@ -26,7 +26,7 @@ namespace NoMoreMath.GoldShoresBeacons
 
         static string ActivateGoldshoreBeaconTracker_GenerateString(On.RoR2.UI.ObjectivePanelController.ActivateGoldshoreBeaconTracker.orig_GenerateString orig, ObjectivePanelController.ObjectiveTracker self)
         {
-            StringBuilder stringBuilder = HG.StringBuilderPool.RentStringBuilder();
+            if (Config.GoldShoresBeacons.Value == "") return orig(self);
             if (self is ObjectivePanelController.ActivateGoldshoreBeaconTracker beaconTracker)
             {
 #pragma warning disable Publicizer001 // Accessing a member that was not originally public
@@ -51,44 +51,28 @@ namespace NoMoreMath.GoldShoresBeacons
                 CharacterMaster localPlayerMaster = PlayerUtils.GetLocalUserMaster();
                 int totalEffectiveCost = CostUtils.GetTotalEffectiveCost(localPlayerMaster, costs);
 
-                stringBuilder.Append(" (<color=#");
-
                 bool canAfford = localPlayerMaster && localPlayerMaster.money >= totalEffectiveCost;
 
-                if (canAfford)
-                {
-                    stringBuilder.Append("00FF00");
-                }
-                else
-                {
-                    stringBuilder.Append("FF0000");
-                }
-
-                stringBuilder.Append('>');
-
-                CostTypeDef costType = CostTypeCatalog.GetCostTypeDef(CostTypeIndex.Money);
-
-                EffectivePurchaseCost.EffectivePurchaseCostPatchController.DisableBuildCostStringPatch = true;
                 int cost = costs.Sum();
-                costType.BuildCostStringStyled(cost, stringBuilder, false, false);
+                string costString = cost.ToString();
+                if (Config.EffectivePurchaseCost.Value != "" && cost != totalEffectiveCost)
+                    costString += " " + Config.EffectivePurchaseCost.Value
+                        .Replace("{amount}", totalEffectiveCost.ToString())
+                        .Replace("{relative}", (totalEffectiveCost - cost).ToString())
+                        .Replace("{styleOnlyOnTooltip}", "")
+                        .Replace("{/styleOnlyOnTooltip}", "");
 
-                if (cost != totalEffectiveCost)
-                {
-                    CostUtils.FormatEffectiveCost(costType, totalEffectiveCost, stringBuilder, false, false);
-                }
-
-                EffectivePurchaseCost.EffectivePurchaseCostPatchController.DisableBuildCostStringPatch = false;
-
-                stringBuilder.Append("</color>)");
+                return orig(self) + " " + Config.GoldShoresBeacons.Value
+                    .Replace("{color}", canAfford ? "#00FF00" : "#FF0000")
+                    .Replace("{amount}", costString);
             }
             else
             {
 #pragma warning disable Publicizer001 // Accessing a member that was not originally public
                 Log.Error($"{nameof(self)} is not {nameof(ObjectivePanelController.ActivateGoldshoreBeaconTracker)}");
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
+                return orig(self);
             }
-
-            return orig(self) + stringBuilder.GetAndReturnToPool();
         }
 
         static bool ActivateGoldshoreBeaconTracker_IsDirty(On.RoR2.UI.ObjectivePanelController.ActivateGoldshoreBeaconTracker.orig_IsDirty orig, ObjectivePanelController.ObjectiveTracker self)

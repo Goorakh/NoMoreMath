@@ -64,6 +64,7 @@ namespace NoMoreMath.Utility
             return costs.Select((c, i) => i == maxCostIndex ? c : GetEffectiveCost(c, master)).Sum();
         }
 
+        /*
         public static void FormatEffectiveCost(CostTypeDef costType, int effectiveCost, StringBuilder stringBuilder, bool forWorldDisplay, bool includeColor = true)
         {
             stringBuilder.Append(" {Eff. ");
@@ -74,5 +75,6 @@ namespace NoMoreMath.Utility
 
             stringBuilder.Append("}");
         }
+        */
     }
 }

@@ -7,7 +7,7 @@ namespace NoMoreMath.EffectivePurchaseCost
 {
     public static class EffectivePurchaseCostPatchController
     {
-        public static bool DisableBuildCostStringPatch;
+        // public static bool DisableBuildCostStringPatch;
 
         public static void Apply()
         {
@@ -23,12 +23,17 @@ namespace NoMoreMath.EffectivePurchaseCost
         {
             orig(self, cost, stringBuilder, forWorldDisplay, includeColor);
 
-            if (self == CostTypeCatalog.GetCostTypeDef(CostTypeIndex.Money) && !DisableBuildCostStringPatch)
+            if (self == CostTypeCatalog.GetCostTypeDef(CostTypeIndex.Money))
             {
                 int effectiveCost = CostUtils.GetEffectiveCost(cost);
-                if (effectiveCost != cost)
+                if (Config.EffectivePurchaseCost.Value != "" && effectiveCost != cost)
                 {
-                    CostUtils.FormatEffectiveCost(self, effectiveCost, stringBuilder, forWorldDisplay, includeColor);
+                    stringBuilder.Append(" ");
+                    stringBuilder.Append(Config.EffectivePurchaseCost.Value
+                        .Replace("{amount}", effectiveCost.ToString())
+                        .Replace("{relative}", (effectiveCost - cost).ToString())
+                        .Replace("{styleOnlyOnTooltip}", forWorldDisplay ? "" : "<style=cShrine>")
+                        .Replace("{/styleOnlyOnTooltip}", forWorldDisplay ? "" : "</style>"));
                 }
             }
         }

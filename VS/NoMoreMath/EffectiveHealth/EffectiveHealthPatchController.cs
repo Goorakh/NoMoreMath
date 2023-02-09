@@ -12,19 +12,12 @@ namespace NoMoreMath.EffectiveHealth
 {
     static class EffectiveHealthPatchController
     {
-        static string formatEffectiveHealthString(float effectiveHealth)
+        static string formatEffectiveHealthString(float effectiveHealth, bool maxHealth = false)
         {
             string effectiveHealthString;
-            if (!float.IsPositiveInfinity(effectiveHealth))
-            {
-                effectiveHealthString = Mathf.CeilToInt(effectiveHealth).ToString();
-            }
-            else
-            {
-                effectiveHealthString = "<color=#555555>INF.</color>";
-            }
-
-            return $"<size=18>(Eff. {effectiveHealthString})</size>";
+            if (!float.IsPositiveInfinity(effectiveHealth)) effectiveHealthString = Mathf.CeilToInt(effectiveHealth).ToString();
+            else effectiveHealthString = "<color=#555555>INF.</color>";
+            return (maxHealth ? Config.EffectiveFullHealth.Value : Config.EffectiveHealth.Value).Replace("{amount}", effectiveHealthString);
         }
 
         public static void Apply()
@@ -156,11 +149,10 @@ namespace NoMoreMath.EffectiveHealth
                 {
                     c.EmitDelegate((string text, float displayedHealthValue, HealthBar instance) =>
                     {
-                        if (!ShouldDisplayEffectiveHealth(instance, displayedHealthValue, true, out EffectiveHealthTracker.Tracker effectiveHealthTracker))
+                        if (Config.EffectiveFullHealth.Value == null || !ShouldDisplayEffectiveHealth(instance, displayedHealthValue, true, out EffectiveHealthTracker.Tracker effectiveHealthTracker))
                             return text;
 
-                        string effectiveHealthString = formatEffectiveHealthString(effectiveHealthTracker.CurrentValue);
-
+                        string effectiveHealthString = formatEffectiveHealthString(effectiveHealthTracker.CurrentValue, true);
                         effectiveHealthTracker.OnRefreshed();
                         return text + " " + effectiveHealthString;
                     });
@@ -169,7 +161,7 @@ namespace NoMoreMath.EffectiveHealth
                 {
                     c.EmitDelegate((string text, float displayedHealthValue, HealthBar instance) =>
                     {
-                        if (!ShouldDisplayEffectiveHealth(instance, displayedHealthValue, false, out EffectiveHealthTracker.Tracker effectiveHealthTracker))
+                        if (Config.EffectiveHealth.Value == null || !ShouldDisplayEffectiveHealth(instance, displayedHealthValue, false, out EffectiveHealthTracker.Tracker effectiveHealthTracker))
                             return text;
 
                         string effectiveHealthString = formatEffectiveHealthString(effectiveHealthTracker.CurrentValue);

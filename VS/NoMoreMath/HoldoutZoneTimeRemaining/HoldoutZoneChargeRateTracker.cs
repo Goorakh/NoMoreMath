@@ -63,6 +63,9 @@ namespace NoMoreMath.HoldoutZoneTimeRemaining
             public ChargeRateEstimator(HoldoutZoneChargeRateTracker owner)
             {
                 _owner = owner;
+                _lastChargeAmount = -1;
+                _lastChargeReceiveTime = -1;
+                _targetChargeRate = -1;
             }
 
             public void RecordCurrentCharge()
