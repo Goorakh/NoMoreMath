@@ -17,7 +17,7 @@ namespace NoMoreMath.BloodShrine
                 if (playerMaster)
                 {
                     CharacterBody body = playerMaster.GetBody();
-                    if (body && Config.BloodShrineMoney.Value != "")
+                    if (body && !string.IsNullOrEmpty(Config.BloodShrineMoney.Value))
                     {
                         int amountGained = (int)(body.healthComponent.fullCombinedHealth * (purchaseInteraction.cost / 100f * shrineBloodBehavior.goldToPaidHpRatio));
                         return " " + Config.BloodShrineMoney.Value

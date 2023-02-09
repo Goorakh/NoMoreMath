@@ -14,7 +14,7 @@ namespace NoMoreMath.HoldoutZoneTimeRemaining
     {
         static string getChargeTimeRemainingString(HoldoutZoneController holdoutZoneController)
         {
-            if (Config.HoldoutZoneTimeRemaining.Value != "" && holdoutZoneController)
+            if (!string.IsNullOrEmpty(Config.HoldoutZoneTimeRemaining.Value) && holdoutZoneController)
             {
                 if (holdoutZoneController.TryGetComponent(out HoldoutZoneChargeRateTracker chargeRateTracker))
                 {

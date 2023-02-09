@@ -26,7 +26,7 @@ namespace NoMoreMath.GoldShoresBeacons
 
         static string ActivateGoldshoreBeaconTracker_GenerateString(On.RoR2.UI.ObjectivePanelController.ActivateGoldshoreBeaconTracker.orig_GenerateString orig, ObjectivePanelController.ObjectiveTracker self)
         {
-            if (Config.GoldShoresBeacons.Value == "")
+            if (string.IsNullOrEmpty(Config.GoldShoresBeacons.Value))
                 return orig(self);
 
             if (self is ObjectivePanelController.ActivateGoldshoreBeaconTracker beaconTracker)
@@ -57,7 +57,7 @@ namespace NoMoreMath.GoldShoresBeacons
 
                 int cost = costs.Sum();
                 string costString = cost.ToString();
-                if (Config.EffectivePurchaseCost.Value != "" && cost != totalEffectiveCost)
+                if (!string.IsNullOrEmpty(Config.EffectivePurchaseCost.Value) && cost != totalEffectiveCost)
                 {
                     costString += " " + Config.EffectivePurchaseCost.Value
                         .Replace("{amount}", totalEffectiveCost.ToString())

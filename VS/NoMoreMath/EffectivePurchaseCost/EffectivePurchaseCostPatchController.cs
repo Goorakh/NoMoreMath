@@ -26,7 +26,7 @@ namespace NoMoreMath.EffectivePurchaseCost
             if (self == CostTypeCatalog.GetCostTypeDef(CostTypeIndex.Money))
             {
                 int effectiveCost = CostUtils.GetEffectiveCost(cost);
-                if (Config.EffectivePurchaseCost.Value != "" && effectiveCost != cost)
+                if (!string.IsNullOrEmpty(Config.EffectivePurchaseCost.Value) && effectiveCost != cost)
                 {
                     stringBuilder.Append(" ");
                     stringBuilder.Append(Config.EffectivePurchaseCost.Value

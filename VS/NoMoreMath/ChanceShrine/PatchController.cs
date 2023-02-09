@@ -14,7 +14,7 @@ namespace NoMoreMath.ChanceShrine
             if (purchaseInteraction.TryGetComponent(out ShrineChanceBehavior shrineChanceBehavior))
             {
                 CharacterMaster master = PlayerUtils.GetLocalUserMaster();
-                if (master && Config.ChanceShrineUses.Value != "")
+                if (master && !string.IsNullOrEmpty(Config.ChanceShrineUses.Value))
                 {
                     uint playerMoney = master.money;
 
