@@ -26,7 +26,9 @@ namespace NoMoreMath.GoldShoresBeacons
 
         static string ActivateGoldshoreBeaconTracker_GenerateString(On.RoR2.UI.ObjectivePanelController.ActivateGoldshoreBeaconTracker.orig_GenerateString orig, ObjectivePanelController.ObjectiveTracker self)
         {
-            if (Config.GoldShoresBeacons.Value == "") return orig(self);
+            if (Config.GoldShoresBeacons.Value == "")
+                return orig(self);
+
             if (self is ObjectivePanelController.ActivateGoldshoreBeaconTracker beaconTracker)
             {
 #pragma warning disable Publicizer001 // Accessing a member that was not originally public
@@ -56,11 +58,13 @@ namespace NoMoreMath.GoldShoresBeacons
                 int cost = costs.Sum();
                 string costString = cost.ToString();
                 if (Config.EffectivePurchaseCost.Value != "" && cost != totalEffectiveCost)
+                {
                     costString += " " + Config.EffectivePurchaseCost.Value
                         .Replace("{amount}", totalEffectiveCost.ToString())
                         .Replace("{relative}", (totalEffectiveCost - cost).ToString())
                         .Replace("{styleOnlyOnTooltip}", "")
                         .Replace("{/styleOnlyOnTooltip}", "");
+                }
 
                 return orig(self) + " " + Config.GoldShoresBeacons.Value
                     .Replace("{color}", canAfford ? "#00FF00" : "#FF0000")

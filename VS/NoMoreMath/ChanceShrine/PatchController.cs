@@ -37,7 +37,10 @@ namespace NoMoreMath.ChanceShrine
                             affordableActivations++;
                         }
                     }
-                    else affordableActivations = uint.MaxValue;
+                    else
+                    {
+                        affordableActivations = uint.MaxValue;
+                    }
 
                     return " " + Config.ChanceShrineUses.Value
                         .Replace("{amount}", affordableActivations == uint.MaxValue ? "INF." : affordableActivations.ToString())

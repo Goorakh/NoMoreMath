@@ -15,8 +15,15 @@ namespace NoMoreMath.EffectiveHealth
         static string formatEffectiveHealthString(float effectiveHealth, bool maxHealth = false)
         {
             string effectiveHealthString;
-            if (!float.IsPositiveInfinity(effectiveHealth)) effectiveHealthString = Mathf.CeilToInt(effectiveHealth).ToString();
-            else effectiveHealthString = "<color=#555555>INF.</color>";
+            if (!float.IsPositiveInfinity(effectiveHealth))
+            {
+                effectiveHealthString = Mathf.CeilToInt(effectiveHealth).ToString();
+            }
+            else
+            {
+                effectiveHealthString = "<color=#555555>INF.</color>";
+            }
+
             return (maxHealth ? Config.EffectiveFullHealth.Value : Config.EffectiveHealth.Value).Replace("{amount}", effectiveHealthString);
         }
 

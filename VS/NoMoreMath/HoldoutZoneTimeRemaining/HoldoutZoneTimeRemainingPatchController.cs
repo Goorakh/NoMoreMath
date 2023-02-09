@@ -26,6 +26,7 @@ namespace NoMoreMath.HoldoutZoneTimeRemaining
                         float remainingTime = remainingCharge / chargeRate;
                         second = chargeRateTracker.FormatRemainingTime(remainingTime);
                     }
+
                     return " " + Config.HoldoutZoneTimeRemaining.Value
                         .Replace("{second}", second);
                 }
