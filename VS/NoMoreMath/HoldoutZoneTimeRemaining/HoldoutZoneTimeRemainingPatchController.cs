@@ -14,26 +14,20 @@ namespace NoMoreMath.HoldoutZoneTimeRemaining
     {
         static string getChargeTimeRemainingString(HoldoutZoneController holdoutZoneController)
         {
-            if (holdoutZoneController)
+            if (Config.HoldoutZoneTimeRemaining.Value != "" && holdoutZoneController)
             {
                 if (holdoutZoneController.TryGetComponent(out HoldoutZoneChargeRateTracker chargeRateTracker))
                 {
                     float chargeRate = chargeRateTracker.PositiveChargeRate;
+                    string second = "N/A";
                     if (chargeRate > 0f)
                     {
                         float remainingCharge = 1f - holdoutZoneController.charge;
                         float remainingTime = remainingCharge / chargeRate;
-
-                        StringBuilder stringBuilder = HG.StringBuilderPool.RentStringBuilder();
-
-                        stringBuilder.Append(" (").Append(chargeRateTracker.FormatRemainingTime(remainingTime)).Append(" s)");
-
-                        return stringBuilder.GetAndReturnToPool();
+                        second = chargeRateTracker.FormatRemainingTime(remainingTime);
                     }
-                    else
-                    {
-                        return " (N/A s)";
-                    }
+                    return " " + Config.HoldoutZoneTimeRemaining.Value
+                        .Replace("{second}", second);
                 }
             }
 
