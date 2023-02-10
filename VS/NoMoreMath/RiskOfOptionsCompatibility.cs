@@ -6,9 +6,27 @@ namespace NoMoreMath
 {
     internal static class RiskOfOptionsCompatibility
     {
+        static Sprite createIconSprite(byte[] imageBytes)
+        {
+            Texture2D texture = new Texture2D(1, 1);
+            if (!texture.LoadImage(imageBytes))
+            {
+                Log.Warning("Could not load icon image data");
+                return null;
+            }
+
+            return Sprite.Create(texture, new Rect(0f, 0f, texture.width, texture.height), Vector2.zero);
+        }
+
         internal static void CreateOptions()
         {
             RiskOfOptions.ModSettingsManager.SetModDescription("Configuration for No More Math", Main.PluginGUID, "No More Math");
+
+            Sprite iconSprite = createIconSprite(Properties.Resources.icon);
+            if (iconSprite)
+            {
+                RiskOfOptions.ModSettingsManager.SetModIcon(iconSprite);
+            }
 
             RiskOfOptions.OptionConfigs.InputFieldConfig inputFieldConfig = new RiskOfOptions.OptionConfigs.InputFieldConfig
             {
