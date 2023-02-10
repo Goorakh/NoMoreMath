@@ -1,10 +1,12 @@
 using BepInEx;
+using NoMoreMath.Utility;
 using R2API.Utils;
 using System.Diagnostics;
 
 namespace NoMoreMath
 {
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
+    [BepInDependency(Constants.RISK_OF_OPTIONS_GUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
     public class Main : BaseUnityPlugin
     {

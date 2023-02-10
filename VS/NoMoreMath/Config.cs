@@ -1,8 +1,6 @@
 ﻿using BepInEx.Configuration;
-using System;
-using System.Collections.Generic;
+using NoMoreMath.Utility;
 using System.IO;
-using System.Text;
 
 namespace NoMoreMath
 {
@@ -26,6 +24,21 @@ namespace NoMoreMath
             EffectivePurchaseCost = config.Bind("Formatting", "Effective Purchase Cost String", "{Eff. {styleOnlyOnTooltip}${amount}{/styleOnlyOnTooltip}}", "{amount}, {relative}, {styleOnlyOnTooltip}, {/styleOnlyOnTooltip} will be replaced. Set to blank to disable.");
             GoldShoresBeacons = config.Bind("Formatting", "Gilded Coast Beacons String", "(<color={color}>${amount}</color>)", "{color}, {amount} will be replaced. Set to blank to disable.");
             HoldoutZoneTimeRemaining = config.Bind("Formatting", "Holdout Zone Time Remaining String", "({second} s)", "{second} will be replaced. Set to blank to disable.");
+
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(Constants.RISK_OF_OPTIONS_GUID))
+            {
+#if DEBUG
+                Log.Debug("Risk of Options detected, running compat...");
+#endif
+
+                RiskOfOptionsCompatibility.CreateOptions();
+            }
+#if DEBUG
+            else
+            {
+                Log.Debug("Risk of Options is not installed");
+            }
+#endif
         }
     }
 }
