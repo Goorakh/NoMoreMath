@@ -1,3 +1,8 @@
+**1.3.0 Changes:**
+
+* Added config options (Thanks prod#0339!)
+  * Includes Risk of Options compatibility
+
 **1.2.0 Changes:**
 
 * Added Effective Health

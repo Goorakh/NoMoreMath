@@ -2,7 +2,7 @@
 	"name": "NoMoreMath",
 	"authorName": "Gorakh",
 	"displayName": "No More Math",
-	"version_number": "1.2.0",
+	"version_number": "1.3.0",
 	"website_url": "https://github.com/Goorakh/NoMoreMath",
 	"description": "Reduces the need for tedious head math, or maybe you're just bad at it. Clientside.",
 	"dependencies": [
