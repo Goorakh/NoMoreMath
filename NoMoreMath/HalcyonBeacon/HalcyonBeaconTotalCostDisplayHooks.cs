@@ -71,7 +71,7 @@ namespace NoMoreMath.HalcyonBeacon
 
                 System.Text.StringBuilder stringBuilder = HG.StringBuilderPool.RentStringBuilder();
 
-                stringBuilder.EnsureCapacity(objectiveString.Length + halcyonBeaconConfigs.TotalCostDisplayFormatter.StrippedLength + 15);
+                stringBuilder.EnsureCapacity(objectiveString.Length + halcyonBeaconConfigs.TotalCostDisplayFormatter.StrippedLength + colorString.Length + totalCostString.Length + 1);
 
                 stringBuilder.Append(objectiveString)
                              .Append(' ');

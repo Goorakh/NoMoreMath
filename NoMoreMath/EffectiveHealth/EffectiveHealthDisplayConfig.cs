@@ -57,7 +57,7 @@ namespace NoMoreMath.EffectiveHealth
             TagReplacementStringConfig effectiveHealthFormatter = EffectiveHealthConfig.EffectiveHealthDisplayFormat;
 
             StringBuilder stringBuilder = HG.StringBuilderPool.RentStringBuilder();
-            stringBuilder.EnsureCapacity(effectiveHealthFormatter.StrippedLength + effectiveHealthString.Length + displayHealthString.Length);
+            stringBuilder.EnsureCapacity(effectiveHealthFormatter.StrippedLength + effectiveHealthString.Length + displayHealthString.Length + 1);
 
             DisplayPosition position = HealthDisplayPosition.Value;
 
