@@ -43,5 +43,10 @@ namespace NoMoreMath.EffectiveHealth
         {
             return _displayConfig.ShouldDisplay();
         }
+
+        public string Format(float displayHealth, float displayEffectiveHealth)
+        {
+            return _displayConfig.Format(displayHealth, displayEffectiveHealth);
+        }
     }
 }

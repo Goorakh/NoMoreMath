@@ -56,11 +56,11 @@ namespace NoMoreMath.EffectiveHealth
             if (!healthProvider)
                 return;
 
-            updateEffectiveHealthDisplay(self.currentHealthText, self.displayStringCurrentHealth, displayController.HealthDisplayData, healthProvider.EffectiveHealth, Configs.EffectiveHealth.CurrentHealthDisplay);
+            updateEffectiveHealthDisplay(self.currentHealthText, self.displayStringCurrentHealth, displayController.HealthDisplayData, healthProvider.EffectiveHealth);
 
-            updateEffectiveHealthDisplay(self.fullHealthText, self.displayStringFullHealth, displayController.MaxHealthDisplayData, healthProvider.EffectiveMaxHealth, Configs.EffectiveHealth.MaxHealthDisplay);
+            updateEffectiveHealthDisplay(self.fullHealthText, self.displayStringFullHealth, displayController.MaxHealthDisplayData, healthProvider.EffectiveMaxHealth);
 
-            void updateEffectiveHealthDisplay(TextMeshProUGUI healthText, float displayHealth, EffectiveHealthDisplayData displayData, float effectiveHealth, EffectiveHealthDisplayConfig displayConfig)
+            void updateEffectiveHealthDisplay(TextMeshProUGUI healthText, float displayHealth, EffectiveHealthDisplayData displayData, float effectiveHealth)
             {
                 if (!healthText)
                     return;
@@ -74,7 +74,7 @@ namespace NoMoreMath.EffectiveHealth
 
                 if (displayValueDirty || displayedHealthValueChanged || displayData.IsDirty)
                 {
-                    healthText.text = displayConfig.Format(displayHealth, displayEffectiveHealth);
+                    healthText.text = displayData.Format(displayHealth, displayEffectiveHealth);
                     displayData.IsDirty = false;
 #if DEBUG
                     Log.Debug($"Refreshing health text '{healthText.name}' for {Util.GetBestBodyName(self.source?.gameObject)}");
