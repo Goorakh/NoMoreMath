@@ -1,3 +1,7 @@
+**2.0.1 Changes:**
+
+* Fixed incompatibility with HealthbarImmune
+
 **2.0.0 Changes:**
 
 * Complete rewrite, should have all the same features, contact me if you notice anything that is missing.
