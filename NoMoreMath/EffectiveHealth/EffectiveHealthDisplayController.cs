@@ -34,9 +34,26 @@ namespace NoMoreMath.EffectiveHealth
 
         public readonly EffectiveHealthDisplayData MaxHealthDisplayData = new EffectiveHealthDisplayData(Configs.EffectiveHealth.MaxHealthDisplay);
 
+        public GameObject SlashRoot { get; private set; }
+
         void Awake()
         {
             _healthBar = GetComponent<HealthBar>();
+
+            if (_healthBar.spriteAsNumberManager)
+            {
+                Destroy(_healthBar.spriteAsNumberManager.gameObject);
+            }
+
+            Transform slashRoot = transform.Find("Slash");
+            if (slashRoot)
+            {
+                SlashRoot = slashRoot.gameObject;
+            }
+            else
+            {
+                Log.Error("Failed to find healthbar SlashRoot");
+            }
         }
 
         void OnDestroy()

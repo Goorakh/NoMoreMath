@@ -12,7 +12,6 @@ namespace NoMoreMath.EffectiveHealth
         [SystemInitializer]
         static void Init()
         {
-            On.RoR2.UI.HealthBar.Awake += HealthBar_Awake;
             On.RoR2.UI.HealthBar.UpdateHealthbar += HealthBar_UpdateHealthbar;
         }
 
@@ -20,25 +19,6 @@ namespace NoMoreMath.EffectiveHealth
         static bool isValidForEffectiveHealthDisplay(HealthBar healthBar)
         {
             return healthBar.currentHealthText || healthBar.fullHealthText;
-        }
-
-        static void HealthBar_Awake(On.RoR2.UI.HealthBar.orig_Awake orig, HealthBar self)
-        {
-            orig(self);
-
-            if (!isValidForEffectiveHealthDisplay(self))
-                return;
-
-            if (self.spriteAsNumberManager)
-            {
-                GameObject.Destroy(self.spriteAsNumberManager.gameObject);
-            }
-
-            Transform slashTransform = self.transform.Find("Slash");
-            if (slashTransform)
-            {
-                slashTransform.gameObject.SetActive(true);
-            }
         }
 
         static void HealthBar_UpdateHealthbar(On.RoR2.UI.HealthBar.orig_UpdateHealthbar orig, HealthBar self, float deltaTime)
@@ -55,6 +35,11 @@ namespace NoMoreMath.EffectiveHealth
             EffectiveHealthProvider healthProvider = displayController.HealthProvider;
             if (!healthProvider)
                 return;
+
+            if (displayController.SlashRoot)
+            {
+                displayController.SlashRoot.SetActive(true);
+            }
 
             updateEffectiveHealthDisplay(self.currentHealthText, self.displayStringCurrentHealth, displayController.HealthDisplayData, healthProvider.EffectiveHealth);
 
