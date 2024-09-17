@@ -1,3 +1,10 @@
+**?.?.? Changes:**
+
+* Halcyon Shrine progress display:
+  * Added `{money_spent}` parameter
+  * Added `{money_required}` parameter
+  * Changed default display to use these parameters instead of percentage
+
 **2.0.1 Changes:**
 
 * Fixed incompatibility with HealthbarImmune
@@ -9,7 +16,7 @@
 * Fixed for SotS
   * Added charge progress display to Halcyon Shrines
 
-* Fixed some multiplier desync issues
+* Fixed some multiplayer desync issues
   * Every player now needs to have the mod installed
 
 **1.3.0 Changes:**
