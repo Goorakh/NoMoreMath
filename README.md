@@ -20,6 +20,7 @@ Displays the estimated time in seconds it will take to fully charge a holdout zo
 ## Halcyon Shrine
 Displays the charge progress of active shrines in the Objectives panel.
 
+![halcyonshrinechargeprogress_gold](https://github.com/Goorakh/NoMoreMath/blob/master/Thunderstore/Content/HalcyonShrineChargeProgress_Gold.png?raw=true)
 ![halcyonshrinechargeprogress](https://github.com/Goorakh/NoMoreMath/blob/master/Thunderstore/Content/HalcyonShrineChargeProgress.png?raw=true)
 
 ## Halcyon Beacons
