@@ -47,9 +47,7 @@ namespace NoMoreMath.EffectiveHealth
             addInvincibilityBuffDef(DLC2Content.Buffs.SojournVehicle);
             addInvincibilityBuffDef(RoR2Content.Buffs.Immune);
             addInvincibilityBuffDef(JunkContent.Buffs.BodyArmor);
-
-            // ror2 nuget has yet to be updated, so this buff (added in v1.3.4 patch) has to be accessed via the catalog
-            addInvincibilityBuffName("bdHiddenRejectAllDamage");
+            addInvincibilityBuffDef(DLC2Content.Buffs.HiddenRejectAllDamage);
 
             _invincibilityBuffs = invincibilityBuffIndices.ToArray();
             Array.Sort(_invincibilityBuffs);
