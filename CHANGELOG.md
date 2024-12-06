@@ -1,4 +1,4 @@
-**-.-.- Changes:**
+**2.1.1 Changes:**
 
 * Fixed Executive Card discount still showing in Effective Cost when the equipment is on cooldown
 
