@@ -11,10 +11,21 @@ namespace NoMoreMath.EffectiveCost
             {
                 if (master)
                 {
-                    Inventory inventory = master.inventory;
-                    if (inventory)
+                    int equipmentStocks = 0;
+                    CharacterBody body = master.GetBody();
+                    if (body)
                     {
-                        if (inventory.GetEquipmentIndex() == DLC1Content.Equipment.MultiShopCard.equipmentIndex)
+                        EquipmentSlot equipmentSlot = body.equipmentSlot;
+                        if (equipmentSlot)
+                        {
+                            equipmentStocks = equipmentSlot.stock;
+                        }
+                    }
+
+                    Inventory inventory = master.inventory;
+                    if (inventory && inventory.currentEquipmentIndex == DLC1Content.Equipment.MultiShopCard.equipmentIndex)
+                    {
+                        if (equipmentStocks > 0 && cost > 0)
                         {
                             int refundAmount = (int)(MultiShopCardUtils.refundPercentage * cost);
 

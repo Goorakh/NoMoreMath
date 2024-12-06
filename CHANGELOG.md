@@ -1,3 +1,7 @@
+**-.-.- Changes:**
+
+* Fixed Executive Card discount still showing in Effective Cost when the equipment is on cooldown
+
 **2.1.0 Changes:**
 
 * Halcyon Shrine progress display:
