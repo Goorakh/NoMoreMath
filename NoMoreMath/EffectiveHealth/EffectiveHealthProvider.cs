@@ -12,7 +12,7 @@ namespace NoMoreMath.EffectiveHealth
     {
         static BuffIndex[] _invincibilityBuffs = [];
 
-        [SystemInitializer(typeof(BuffCatalog))]
+        [SystemInitializer(typeof(BuffCatalog), typeof(BodyCatalog))]
         static void Init()
         {
             List<BuffIndex> invincibilityBuffIndices = [];
@@ -51,6 +51,14 @@ namespace NoMoreMath.EffectiveHealth
 
             _invincibilityBuffs = invincibilityBuffIndices.ToArray();
             Array.Sort(_invincibilityBuffs);
+
+            foreach (GameObject bodyPrefab in BodyCatalog.allBodyPrefabs)
+            {
+                if (bodyPrefab.GetComponent<HealthComponent>())
+                {
+                    bodyPrefab.AddComponent<EffectiveHealthProvider>();
+                }
+            }
         }
 
         public HealthComponent HealthComponent { get; private set; }
