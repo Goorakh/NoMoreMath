@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace NoMoreMath.HalcyonBeacon
 {
-    public class HalcyonBeaconConfig
+    public sealed class HalcyonBeaconConfig
     {
         public readonly ConfigEntry<bool> EnableTotalCostDisplay;
 

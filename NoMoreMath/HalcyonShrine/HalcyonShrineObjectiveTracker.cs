@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace NoMoreMath.HalcyonShrine
 {
-    public class HalcyonShrineObjectiveTracker : ObjectivePanelController.ObjectiveTracker
+    public sealed class HalcyonShrineObjectiveTracker : ObjectivePanelController.ObjectiveTracker
     {
         HalcyonShrineObjectiveProvider halcyoniteShrine => (HalcyonShrineObjectiveProvider)sourceDescriptor.source;
 

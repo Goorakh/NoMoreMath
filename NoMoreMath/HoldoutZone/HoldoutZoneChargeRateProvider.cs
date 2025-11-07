@@ -1,11 +1,10 @@
 ﻿using NoMoreMath.Utils;
 using RoR2;
-using System.Collections.Generic;
 using UnityEngine.Networking;
 
 namespace NoMoreMath.HoldoutZone
 {
-    public class HoldoutZoneChargeRateProvider : NetworkBehaviour, ICachableComponent
+    public sealed class HoldoutZoneChargeRateProvider : NetworkBehaviour, ICachableComponent
     {
         public static readonly ObjectComponentCache<HoldoutZoneController, HoldoutZoneChargeRateProvider> ComponentCache = new ObjectComponentCache<HoldoutZoneController, HoldoutZoneChargeRateProvider>();
 

@@ -7,31 +7,11 @@ using System.Text;
 
 namespace NoMoreMath.Config
 {
-    public class TagReplacementStringConfig : IDisposable
+    public sealed class TagReplacementStringConfig : IDisposable
     {
-        readonly struct TagInfo
-        {
-            public readonly string Tag;
-            public readonly int StartIndex;
+        readonly record struct TagInfo(string Tag, int StartIndex);
 
-            public TagInfo(string tag, int startIndex)
-            {
-                Tag = tag;
-                StartIndex = startIndex;
-            }
-        }
-
-        public readonly struct ReplacementInfo
-        {
-            public readonly string Tag;
-            public readonly string Value;
-
-            public ReplacementInfo(string tag, string value)
-            {
-                Tag = tag;
-                Value = value;
-            }
-        }
+        public readonly record struct ReplacementInfo(string Tag, string Value);
 
         public readonly ConfigEntry<string> ConfigEntry;
 
@@ -85,7 +65,7 @@ namespace NoMoreMath.Config
                 }
             }
 
-            _cachedTagInfos = tagInfos.ToArray();
+            _cachedTagInfos = [.. tagInfos];
 
             int strippedLength = str.Length;
             foreach (TagInfo formatInfo in _cachedTagInfos)
@@ -95,9 +75,7 @@ namespace NoMoreMath.Config
 
             StrippedLength = strippedLength;
 
-#if DEBUG
             Log.Debug($"Refreshed config format string '{ConfigEntry.Definition}': StrippedLength={StrippedLength}, tagInfos=[{string.Join(", ", _cachedTagInfos.GroupBy(f => f.Tag).Select(g => $"{g.Key}: [{string.Join(", ", g.Select(f => f.StartIndex))}]"))}]");
-#endif
         }
 
         public void AppendToStringBuilder(StringBuilder stringBuilder, params ReplacementInfo[] tagReplacements)

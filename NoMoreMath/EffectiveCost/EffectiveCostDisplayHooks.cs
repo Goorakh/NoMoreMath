@@ -5,6 +5,7 @@ using MonoMod.RuntimeDetour;
 using MonoMod.Utils;
 using NoMoreMath.Config;
 using RoR2;
+using System.Reflection;
 
 namespace NoMoreMath.EffectiveCost
 {
@@ -14,8 +15,15 @@ namespace NoMoreMath.EffectiveCost
         static void Init()
         {
             CostTypeDef moneyCostDef = CostTypeCatalog.GetCostTypeDef(CostTypeIndex.Money);
-
-            new ILHook(moneyCostDef.buildCostString.Method, MoneyCostTypeDef_BuildCostString_Manipulator);
+            MethodInfo buildCostMoneyMethod = moneyCostDef?.buildCostString?.Method;
+            if (buildCostMoneyMethod != null)
+            {
+                new ILHook(buildCostMoneyMethod, MoneyCostTypeDef_BuildCostString_Manipulator);
+            }
+            else
+            {
+                Log.Error("Failed to find BuildCost method for Money cost type");
+            }
         }
 
         static void MoneyCostTypeDef_BuildCostString_Manipulator(ILContext il)

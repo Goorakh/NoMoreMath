@@ -1,10 +1,9 @@
-﻿using NoMoreMath.Config;
-using NoMoreMath.Utils;
+﻿using NoMoreMath.Utils;
 using System;
 
 namespace NoMoreMath.EffectiveHealth
 {
-    public class EffectiveHealthDisplayData : IDisposable
+    public sealed class EffectiveHealthDisplayData : IDisposable
     {
         public readonly TrackedValue<float> LastDisplayedHealthValue = new TrackedValue<float>(float.NaN);
 

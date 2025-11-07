@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace NoMoreMath.Utils
 {
-    public class ObjectComponentCache<THostComponent, TCachedComponent> where THostComponent : Component where TCachedComponent : MonoBehaviour, ICachableComponent
+    public sealed class ObjectComponentCache<THostComponent, TCachedComponent> where THostComponent : Component where TCachedComponent : MonoBehaviour, ICachableComponent
     {
         readonly Dictionary<int, TCachedComponent> _componentDictionary = [];
 

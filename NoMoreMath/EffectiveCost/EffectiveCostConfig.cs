@@ -3,7 +3,7 @@ using NoMoreMath.Config;
 
 namespace NoMoreMath.EffectiveCost
 {
-    public class EffectiveCostConfig
+    public sealed class EffectiveCostConfig
     {
         public readonly ConfigEntry<bool> Enabled;
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NoMoreMath.Utils
 {
-    public class TrackedValue<T>
+    public sealed class TrackedValue<T>
     {
         public IEqualityComparer<T> EqualityComparer { get; set; }
 

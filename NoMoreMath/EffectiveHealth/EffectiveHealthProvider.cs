@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 namespace NoMoreMath.EffectiveHealth
 {
     [DisallowMultipleComponent]
-    public class EffectiveHealthProvider : NetworkBehaviour
+    public sealed class EffectiveHealthProvider : NetworkBehaviour
     {
         static BuffIndex[] _invincibilityBuffs = [];
 
@@ -42,14 +42,14 @@ namespace NoMoreMath.EffectiveHealth
                 }
             }
 
-            addInvincibilityBuffDef(DLC1Content.Buffs.BearVoidReady);
             addInvincibilityBuffDef(RoR2Content.Buffs.HiddenInvincibility);
-            addInvincibilityBuffDef(DLC2Content.Buffs.SojournVehicle);
             addInvincibilityBuffDef(RoR2Content.Buffs.Immune);
-            addInvincibilityBuffDef(JunkContent.Buffs.BodyArmor);
+            addInvincibilityBuffDef(DLC1Content.Buffs.BearVoidReady);
             addInvincibilityBuffDef(DLC2Content.Buffs.HiddenRejectAllDamage);
+            addInvincibilityBuffDef(DLC2Content.Buffs.SojournVehicle);
+            addInvincibilityBuffDef(JunkContent.Buffs.BodyArmor);
 
-            _invincibilityBuffs = invincibilityBuffIndices.ToArray();
+            _invincibilityBuffs = [.. invincibilityBuffIndices];
             Array.Sort(_invincibilityBuffs);
 
             foreach (GameObject bodyPrefab in BodyCatalog.allBodyPrefabs)

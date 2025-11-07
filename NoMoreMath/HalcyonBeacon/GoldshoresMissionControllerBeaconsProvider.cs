@@ -1,5 +1,4 @@
-﻿using NoMoreMath.Utils;
-using RoR2;
+﻿using RoR2;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
@@ -8,7 +7,7 @@ using UnityEngine.Networking;
 namespace NoMoreMath.HalcyonBeacon
 {
     [DisallowMultipleComponent]
-    public class GoldshoresMissionControllerBeaconsProvider : NetworkBehaviour
+    public sealed class GoldshoresMissionControllerBeaconsProvider : NetworkBehaviour
     {
         public static GoldshoresMissionControllerBeaconsProvider Instance { get; private set; }
 

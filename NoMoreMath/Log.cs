@@ -1,4 +1,5 @@
 ﻿using BepInEx.Logging;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -7,6 +8,7 @@ namespace NoMoreMath
     internal static class Log
     {
         static readonly StringBuilder _sharedStringBuilder = new StringBuilder(256);
+        static readonly object _stringBuilderLock = new object();
 
         static readonly int _cachedCallerPathPrefixLength;
 
@@ -38,32 +40,31 @@ namespace NoMoreMath
             _logSource = logSource;
         }
 
-        static StringBuilder appendCallerPrefix(this StringBuilder stringBuilder, string callerPath, string callerMemberName, int callerLineNumber)
+        static string buildCallerLogString(string callerPath, string callerMemberName, int callerLineNumber, object data)
         {
-            return stringBuilder.Append(callerPath, _cachedCallerPathPrefixLength, callerPath.Length - _cachedCallerPathPrefixLength)
-                                .Append(':').Append(callerLineNumber)
-                                .Append(" (").Append(callerMemberName).Append("): ");
+            lock (_stringBuilderLock)
+            {
+                return _sharedStringBuilder.Clear()
+                                           .Append(callerPath, _cachedCallerPathPrefixLength, callerPath.Length - _cachedCallerPathPrefixLength)
+                                           .Append(':').Append(callerLineNumber)
+                                           .Append(" (").Append(callerMemberName).Append("): ")
+                                           .Append(data)
+                                           .ToString();
+            }
         }
 
-        static StringBuilder buildCallerLogString(string callerPath, string callerMemberName, int callerLineNumber, object data)
-        {
-            return _sharedStringBuilder.Clear()
-                                       .appendCallerPrefix(callerPath, callerMemberName, callerLineNumber)
-                                       .Append(data);
-        }
-
-#if DEBUG
+        [Conditional("DEBUG")]
         internal static void Debug(object data, [CallerFilePath] string callerPath = "", [CallerMemberName] string callerMemberName = "", [CallerLineNumber] int callerLineNumber = -1)
         {
             _logSource.LogDebug(buildCallerLogString(callerPath, callerMemberName, callerLineNumber, data));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [Conditional("DEBUG")]
         internal static void Debug_NoCallerPrefix(object data)
         {
             _logSource.LogDebug(data);
         }
-#endif
 
         internal static void Error(object data, [CallerFilePath] string callerPath = "", [CallerMemberName] string callerMemberName = "", [CallerLineNumber] int callerLineNumber = -1)
         {
@@ -118,6 +119,27 @@ namespace NoMoreMath
         internal static void Warning_NoCallerPrefix(object data)
         {
             _logSource.LogWarning(data);
+        }
+
+        internal static void LogType(LogLevel level, object data, [CallerFilePath] string callerPath = "", [CallerMemberName] string callerMemberName = "", [CallerLineNumber] int callerLineNumber = -1)
+        {
+#if !DEBUG
+            if ((level & LogLevel.Debug) != 0)
+                return;
+#endif
+
+            _logSource.Log(level, buildCallerLogString(callerPath, callerMemberName, callerLineNumber, data));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static void LogType_NoCallerPrefix(LogLevel level, object data)
+        {
+#if !DEBUG
+            if ((level & LogLevel.Debug) != 0)
+                return;
+#endif
+
+            _logSource.Log(level, data);
         }
     }
 }

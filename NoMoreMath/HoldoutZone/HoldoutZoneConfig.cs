@@ -3,7 +3,7 @@ using NoMoreMath.Config;
 
 namespace NoMoreMath.HoldoutZone
 {
-    public class HoldoutZoneConfig
+    public sealed class HoldoutZoneConfig
     {
         public readonly ConfigEntry<bool> EnableChargeTimeDisplay;
 

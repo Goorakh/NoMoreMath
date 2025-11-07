@@ -1,6 +1,5 @@
 ﻿using NoMoreMath.Config;
 using NoMoreMath.MiscPatches;
-using NoMoreMath.ShrineChance;
 using RoR2;
 using System;
 using System.Text;
@@ -27,17 +26,13 @@ namespace NoMoreMath.ShrineBlood
                 {
                     PurchaseInteractionHooks.ModifyName += PurchaseInteractionHooks_ModifyName;
 
-#if DEBUG
                     Log.Debug("Added name modifier");
-#endif
                 }
                 else
                 {
                     PurchaseInteractionHooks.ModifyName -= PurchaseInteractionHooks_ModifyName;
 
-#if DEBUG
                     Log.Debug("Removed name modifier");
-#endif
                 }
             }
         }

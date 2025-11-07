@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace NoMoreMath.HalcyonBeacon
 {
-    internal struct GoldshoresBeaconCollection : IEquatable<GoldshoresBeaconCollection>
+    internal readonly struct GoldshoresBeaconCollection : IEquatable<GoldshoresBeaconCollection>
     {
-        public GameObject[] BeaconObjects;
+        public readonly GameObject[] BeaconObjects;
 
         public GoldshoresBeaconCollection(GameObject[] beaconObjects)
         {

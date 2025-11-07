@@ -3,7 +3,7 @@ using NoMoreMath.Config;
 
 namespace NoMoreMath.EffectiveHealth
 {
-    public class EffectiveHealthConfig
+    public sealed class EffectiveHealthConfig
     {
         public readonly ConfigEntry<bool> Enabled;
 

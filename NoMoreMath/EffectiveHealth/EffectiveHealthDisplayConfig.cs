@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NoMoreMath.EffectiveHealth
 {
-    public class EffectiveHealthDisplayConfig
+    public sealed class EffectiveHealthDisplayConfig
     {
         public enum DisplayPosition
         {

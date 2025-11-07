@@ -27,17 +27,13 @@ namespace NoMoreMath.ShrineChance
                 {
                     PurchaseInteractionHooks.ModifyName += PurchaseInteractionHooks_ModifyName;
 
-#if DEBUG
                     Log.Debug("Added name modifier");
-#endif
                 }
                 else
                 {
                     PurchaseInteractionHooks.ModifyName -= PurchaseInteractionHooks_ModifyName;
 
-#if DEBUG
                     Log.Debug("Removed name modifier");
-#endif
                 }
             }
         }

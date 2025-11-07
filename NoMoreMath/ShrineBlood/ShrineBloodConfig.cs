@@ -3,7 +3,7 @@ using NoMoreMath.Config;
 
 namespace NoMoreMath.ShrineBlood
 {
-    public class ShrineBloodConfig
+    public sealed class ShrineBloodConfig
     {
         public readonly ConfigEntry<bool> EnableGoldGainedDisplay;
 

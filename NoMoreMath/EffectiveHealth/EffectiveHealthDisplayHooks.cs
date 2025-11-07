@@ -1,5 +1,4 @@
-﻿using NoMoreMath.Config;
-using RoR2;
+﻿using RoR2;
 using RoR2.UI;
 using System.Runtime.CompilerServices;
 using TMPro;

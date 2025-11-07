@@ -9,7 +9,7 @@ using UnityEngine.Networking;
 namespace NoMoreMath.HalcyonShrine
 {
     [DisallowMultipleComponent]
-    public class HalcyonShrineObjectiveProvider : NetworkBehaviour
+    public sealed class HalcyonShrineObjectiveProvider : NetworkBehaviour
     {
         HalcyoniteShrineInteractable _shrine;
 

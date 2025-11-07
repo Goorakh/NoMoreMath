@@ -3,7 +3,7 @@ using NoMoreMath.Config;
 
 namespace NoMoreMath.ShrineChance
 {
-    public class ShrineChanceConfig
+    public sealed class ShrineChanceConfig
     {
         public readonly ConfigEntry<bool> EnableActivationCountDisplay;
 

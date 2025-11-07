@@ -3,7 +3,7 @@ using NoMoreMath.Config;
 
 namespace NoMoreMath.HalcyonShrine
 {
-    public class HalcyonShrineConfig
+    public sealed class HalcyonShrineConfig
     {
         public readonly ConfigEntry<bool> EnableProgressObjective;
 

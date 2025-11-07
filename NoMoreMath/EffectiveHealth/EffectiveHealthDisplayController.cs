@@ -7,7 +7,7 @@ using UnityEngine;
 namespace NoMoreMath.EffectiveHealth
 {
     [DisallowMultipleComponent]
-    public class EffectiveHealthDisplayController : MonoBehaviour, ICachableComponent
+    public sealed class EffectiveHealthDisplayController : MonoBehaviour, ICachableComponent
     {
         public static readonly ObjectComponentCache<HealthBar, EffectiveHealthDisplayController> ComponentCache = new ObjectComponentCache<HealthBar, EffectiveHealthDisplayController>();
 
