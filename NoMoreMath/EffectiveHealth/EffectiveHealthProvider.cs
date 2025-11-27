@@ -127,6 +127,12 @@ namespace NoMoreMath.EffectiveHealth
 
             damageMultiplier *= armorDamageMultiplier;
 
+            int droneArmorBuffCount = body.GetBuffCount(DLC3Content.Buffs.DroneArmor);
+            if (droneArmorBuffCount > 0)
+            {
+                damageMultiplier *= 1f - (droneArmorBuffCount * 0.05f);
+            }
+
             return health / damageMultiplier;
         }
     }
