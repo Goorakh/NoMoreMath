@@ -133,6 +133,11 @@ namespace NoMoreMath.EffectiveHealth
                 damageMultiplier *= 1f - (droneArmorBuffCount * 0.05f);
             }
 
+            if (body.HasBuff(DLC2Content.Buffs.DelayedDamageBuff))
+            {
+                damageMultiplier *= 0.9f;
+            }
+
             return health / damageMultiplier;
         }
     }
