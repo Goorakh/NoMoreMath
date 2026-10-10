@@ -1,3 +1,7 @@
+**2.1.3 Changes:**
+
+* Updated for Hallowed Concepts
+
 **2.1.2 Changes:**
 
 * Fixed Warped Echo not being accounted for in effective health calculations.

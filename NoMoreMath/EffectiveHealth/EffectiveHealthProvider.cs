@@ -1,4 +1,5 @@
 ﻿using RoR2;
+using RoR2.Items;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -120,6 +121,11 @@ namespace NoMoreMath.EffectiveHealth
                 damageMultiplier *= 1.5f;
             }
 
+            if (body.HasBuff(DLC4Content.Buffs.DamageReduction))
+            {
+                damageMultiplier *= 0.1f;
+            }
+
             float armor = body.armor + _adaptiveArmorValue;
 
             float armorDamageMultiplier = armor >= 0f ? (1f - (armor / (armor + 100f)))
@@ -131,6 +137,30 @@ namespace NoMoreMath.EffectiveHealth
             if (droneArmorBuffCount > 0)
             {
                 damageMultiplier *= 1f - (droneArmorBuffCount * 0.05f);
+            }
+
+            if (body.inventory && body.inventory.GetItemCountEffective(DLC4Content.Items.VengefulSpirit) > 0)
+            {
+                VengefulSpiritAttachmentController vengefulSpiritAttachmentController = VengefulSpiritAttachmentController.FindSpiritAttachmentControllerForBody(body);
+                if (vengefulSpiritAttachmentController)
+                {
+                    bool hasSpirit = false;
+                    foreach (CharacterMaster characterMaster in vengefulSpiritAttachmentController.combatSquad.readOnlyMembersList)
+                    {
+                        if (characterMaster &&
+                            characterMaster.TryGetBody(out CharacterBody characterBody) &&
+                            characterBody.healthComponent.alive)
+                        {
+                            hasSpirit = true;
+                            break;
+                        }
+                    }
+
+                    if (hasSpirit)
+                    {
+                        damageMultiplier *= 1f - VengefulSpiritAttachmentController.absorbedDamageFraction;
+                    }
+                }
             }
 
             if (body.HasBuff(DLC2Content.Buffs.DelayedDamageBuff))

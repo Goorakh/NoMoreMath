@@ -13,7 +13,7 @@ namespace NoMoreMath
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "Gorakh";
         public const string PluginName = "NoMoreMath";
-        public const string PluginVersion = "2.1.2";
+        public const string PluginVersion = "2.1.3";
 
         internal static NoMoreMathPlugin Instance { get; private set; }
 
